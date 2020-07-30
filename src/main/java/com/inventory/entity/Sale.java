@@ -17,8 +17,7 @@ public class Sale{
 	Integer productId;
 	Integer productQuantity;
 	Double salePrice;
-	Timestamp saleDate;
-	//Double productPrice;
+	Timestamp saleDate;	
 	public Sale() {
 		super();
 
@@ -73,15 +72,6 @@ public class Sale{
 		this.saleDate = saleDate;
 	}
 	
-
-	/*public Double getProductPrice() {
-		return productPrice;
-	}
-
-	public void setProductPrice(Double productPrice) {
-		this.productPrice = productPrice;
-	}*/
-
 	@Override
 	public String toString() {
 		return "Sale [saleId=" + saleId + ", productId=" + productId + ", productQuantity=" + productQuantity

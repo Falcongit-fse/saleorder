@@ -13,6 +13,23 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import com.inventory.service.MyUserDetailsService;
 @EnableWebSecurity
 public class SecurityConfigurer extends  WebSecurityConfigurerAdapter{
+	/*String admin="admin";
+	
+	@Bean
+	public PasswordEncoder passworEncoder() {
+		return NoOpPasswordEncoder.getInstance();
+	}
+    @Override
+	protected void configure(HttpSecurity http) throws Exception {
+	     http.csrf().disable().authorizeRequests().antMatchers("/ims/*").hasAnyRole(admin,"user").and().formLogin();
+	     http.csrf().disable().authorizeRequests().antMatchers("/ims/getAllSales").hasAnyRole(admin).and().formLogin();
+    	
+	}
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+    	auth.inMemoryAuthentication().withUser("susmitha").password("susmitha").roles(admin);
+    	auth.inMemoryAuthentication().withUser("robert").password("robert").roles("user");
+    }*/
 	@Autowired
 	MyUserDetailsService myUserDetailsSerivce;
 	@Override
@@ -23,14 +40,9 @@ public class SecurityConfigurer extends  WebSecurityConfigurerAdapter{
 	public PasswordEncoder passworEncoder() {
 		return NoOpPasswordEncoder.getInstance();
 	}
-    @Override
+	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 	     http.csrf().disable();
-    	/*http.csrf()
-        .ignoringAntMatchers("/users/**")
-        .and()
-        .authorizeRequests()
-           .antMatchers("/users/**").permitAll();*/
 	}
 
 }

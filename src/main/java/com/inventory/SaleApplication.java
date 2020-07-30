@@ -37,7 +37,6 @@ public class SaleApplication {
 	@LoadBalanced
 	public RestTemplate getRestTemplate()
 	{
-		//RestTemplate restTemplate =new RestTemplate();
 		RestTemplate restTemplate = restTemplateBuilder.basicAuthentication("susmitha", "susmitha").build();
 		return restTemplate;
 	}

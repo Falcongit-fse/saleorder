@@ -3,6 +3,7 @@ package com.inventory.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,7 +33,13 @@ public class SaleController {
 	}
 	@PostMapping("/ims/createSale")
 	public ResponseEntity<String> createSale(@RequestBody Sale sale){
-		return service.createSale(sale);		
+		Product product=restTemplate.getForObject("http://product-info-service/ims/getProductById/"+sale.getProductId(), Product.class);
+        System.out.println(product);
+		Integer remainingProductsInStock=product.getProductQuantity()-product.getProductsSold();
+		System.out.println("remainingProductsInStock:"+remainingProductsInStock);
+        if(remainingProductsInStock>=sale.getProductQuantity())
+        	return service.createSale(sale,product.getProductsSold());
+        return new ResponseEntity<String>("Product is out of stock!!",HttpStatus.BAD_REQUEST);	
 		
 	}
 	@PutMapping("/ims/updateSale")
@@ -50,8 +57,7 @@ public class SaleController {
 		
 		Sale sale= service.getSaleById(saleId);	
 		Product product=restTemplate.getForObject("http://product-info-service/ims/getProductById/"+sale.getProductId(), Product.class);
-		System.out.println(product);
-		//restTemplate.getForObj
+		
 		ProductSale productSale=new ProductSale();
 		productSale.setSaleId(sale.getSaleId());
 		productSale.setProductId(sale.getProductId());

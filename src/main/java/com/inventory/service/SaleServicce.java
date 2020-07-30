@@ -1,6 +1,7 @@
 package com.inventory.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,8 +19,11 @@ public class SaleServicce {
 		List<Sale> saleList=(List<Sale>) saleRepository.findAll();
 		return saleList;
 	}
-	public ResponseEntity<String> createSale(Sale sale){
+	public ResponseEntity<String> createSale(Sale sale,Integer soldQuantity){
 		 saleRepository.save(sale);
+		 Integer productsSold=soldQuantity+sale.getProductQuantity();
+		 int updateRows=saleRepository.updateProductSold(sale.getProductId(),productsSold );
+		 System.out.println(updateRows+"rows updated!!");
 		 return new ResponseEntity<String>("Sale created successfully!!",HttpStatus.CREATED);		
 		
 	}
@@ -34,8 +38,11 @@ public class SaleServicce {
 		
 	}
 	public Sale getSaleById(Integer saleId) {
-		
-		return saleRepository.findById(saleId).get();
+		Sale sale=null;
+		Optional<Sale> optionalSale = saleRepository.findById(saleId);
+		if(optionalSale.isPresent())
+			sale= optionalSale.get();
+		return sale;
 	}
 
 }
